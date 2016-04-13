@@ -2,7 +2,10 @@ module.exports = (event) ->
   switch event.data.action
     when 'opened', 'closed', 'reopened' then openEvent(event)
     when 'assigned', 'unassigned' then assignEvent(event)
-    when 'labeled', 'unlabeled' then labelEvent(event)
+    when 'labeled', 'unlabeled'
+      ignore_labels = !!process.env.HUBOT_GITHUB_IGNORE_LABELS
+      if not ignore_labels
+        labelEvent(event)
 
 openEvent = ({data}) ->
   pullRequest = data.pull_request

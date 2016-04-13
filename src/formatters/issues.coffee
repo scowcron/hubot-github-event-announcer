@@ -19,7 +19,9 @@ module.exports = (event) ->
     when 'opened', 'closed', 'reopened'
       openAction(data)
     when 'labeled', 'unlabeled'
-      labelAction(data)
+      ignore_labels = !!process.env.HUBOT_GITHUB_IGNORE_LABELS
+      if not ignore_labels
+        labelAction(data)
     when 'assigned', 'unassigned'
       assignAction(data)
 
